@@ -11,6 +11,6 @@ Install npm for package management, please go to http://npmjs.org/.
 Once node and npm are install, you can install release notes dependencies using `npm install -d`.
 
 To run release-notes execute the following:
-'node build-repo​rt.js http://jenkins.jolira.com/ test'
+`node build-repo​rt.js http://jenkins.jolira.com/ test`
 
-Now that you have tested your setup you can modify 'approved.txt' file and point to your Jenkins server.
+Now that you have tested your setup you can modify `approved.txt` file and point to your Jenkins server.
