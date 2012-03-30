@@ -1,0 +1,22 @@
+{
+    "name":"release-notes",
+    "version":"0.1.1",
+    "description":"Generate release notes from Jenkins CI server",
+    "keywords":["site", "html5"],
+    "author":"Gabe Hopper <gabe@jolira.com> (http://www.jolira.com)",
+    "repository":{
+        "url":"https://github.com/jolira/release-notes.git",
+        "type":"git"
+    },
+    "dependencies":{
+        "restler":"*"
+    },
+    "bugs":{
+        "mail":"dev@jolira.com",
+        "url":"http://github.com/jolira/release-notes/issues"
+    },
+    "main":"build-repo​rt",
+    "engines":{
+        "node":">= 0.5.0 < 0.7.0"
+    }
+}

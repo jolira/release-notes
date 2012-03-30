@@ -5,7 +5,7 @@ if(!(process.argv.length == 4 || process.argv.length == 6)) {
 	console.log('usage: node build-report.js JENKINS_URL JENKINS_JOB [HTTP username] [HTTP password]');
 	console.log('e.g.: node build-report.js http://localhost:8081/ test');
 	console.log('  or: node build-report.js http://localhost:8081/ test username password');
-	return;
+//	return;
 }
 
 // Parse command line arguments
