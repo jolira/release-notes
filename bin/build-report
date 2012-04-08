@@ -10,3 +10,12 @@ if(!(process.argv.length == 4 || process.argv.length == 6)) {
 
     process.exit(0);
 }
+
+// Parse command line arguments
+var arg = 2,
+    url = process.argv[arg++],
+    job = process.argv[arg++],
+    username = process.argv[arg++],
+    password = process.argv[arg++];
+
+reporter(url, job, username, password);
