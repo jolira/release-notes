@@ -1,8 +1,9 @@
-Release Notes
-========================================
+Release Notes [![Build Status](https://secure.travis-ci.org/jolira/release-notes.png?branch=master)](http://travis-ci.org/jolira/release-notes)
+========================================================================================================================
 
 Getting Started
------------------
+------------------------------------------------------------------------------------------------------------------------
+
 Node.js 0.6 or better needs to be installed on your system. If you do not have node installed yet, please go to
 http://nodejs.org/, download the package for your operating system, and install it.
 
