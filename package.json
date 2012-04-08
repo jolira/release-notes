@@ -3,10 +3,23 @@
     "version":"0.1.2",
     "description":"Generate release notes from Jenkins CI server",
     "keywords":["mingle", "jenkins"],
-    "author":"Gabe Hopper <gabe@jolira.com> (http://www.jolira.com)",
+    "contributors": [
+        "Gabe Hopper <gabe@jolira.com> (http://www.jolira.com)",
+        "Joachim Kainz <jfk@jolira.com> (http://www.jolira.com)"
+    ],
     "repository":{
         "url":"https://github.com/jolira/release-notes.git",
         "type":"git"
+    },
+    "bin": {
+        "build-report": "./bin/build-report"
+    },
+    "devDependencies":{
+        "debug":"*",
+        "horaa":"*",
+        "vows":"*",
+        "jake":"*",
+        "uglify-js":"*"
     },
     "dependencies":{
         "restler":"*"
