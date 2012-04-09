@@ -28,5 +28,5 @@ client.viewJobs(function(err, result){
         throw err || err.stack;
     }
 
-    console.log(result);
+    console.log("%j", result);
 });
