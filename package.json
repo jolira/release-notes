@@ -12,6 +12,7 @@
         "type":"git"
     },
     "bin": {
+        "list-jobs": "./bin/view-jobs",
         "build-report": "./bin/build-report"
     },
     "devDependencies":{
@@ -22,6 +23,7 @@
         "uglify-js":"*"
     },
     "dependencies":{
+        "batch":"*",
         "restler":"*"
     },
     "bugs":{

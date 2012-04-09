@@ -31,7 +31,7 @@
     // Create a Test Suite
     vows.describe('call jenkins').addBatch({
         'with the success url': {
-            topic: jenkins("https://localost:12345/success"),
+            topic: jenkins("https://localost:12345/success", {}),
             "calling": {
                 topic: function (client) {
                     client.jobs(this.callback);
