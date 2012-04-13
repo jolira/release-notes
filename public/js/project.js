@@ -36,14 +36,14 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             this.model.fetch();
         },
 
-        addOne:function (todo) {
-            var view = new TodoView({model:todo});
+        addOne:function (project) {
+            var view = new ProjectView({model:project});
             this.$("#todo-list").append(view.render().el);
         },
 
         // Add all items in the **Todos** collection at once.
         addAll:function () {
-            Todos.each(this.addOne);
+            this.model.each(this.addOne);
         }
     });
 
