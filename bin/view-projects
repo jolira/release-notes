@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+var mingle = require("../lib/mingle");
+
+if(process.argv.length !== 3 && process.argv.length !== 5) {
+	console.log('usage: node build-report.js <url> [<username> <password>]');
+    process.exit(0);
+}
+
+// Parse command line arguments
+var url = process.argv[2],
+    opts = {};
+
+if (process.argv[3]) {
+    opts.username = process.argv[3];
+
+    if (process.argv[4]) {
+        opts.password = process.argv[4];
+    }
+}
+
+var client = mingle(url, opts);
+
+client.viewProjects(function(err, result){
+    if (err) {
+        throw err || err.stack;
+    }
+
+    console.log("%j", result);
+});

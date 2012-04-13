@@ -1,0 +1,21 @@
+# disabled
+CACHE MANIFEST
+
+CACHE:
+/favicon.ico
+css/tmw.css
+css/style.css
+js/form.js
+js/main.js
+js/libs/modernizr-2.5.2.min.js
+js/libs/phonegap-1.4.1.js
+js/libs/require/index-1.0.7.js
+js/libs/underscore/underscore-1.3.1-amdjs.js
+js/libs/backbone/backbone-0.9.1-amdjs.js
+js/libs/zepto-0.8.js
+img/catalog.jpg
+img/checkout.png
+img/home.png
+img/logo.png
+img/menu.png
+img/rental.png
