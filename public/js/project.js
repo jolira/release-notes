@@ -33,6 +33,14 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 this.model.bind('reset', this.addAll, this);
                 this.model.fetch();
             },
+            events:{
+                "change":"selectRelease"
+            },
+            selectRelease:function () {
+                var selected = this.$el.val();
+
+                this.options.router.navigate(selected);
+            },
             addAll:function () {
                 this.$el.removeAttr("disabled");
                 this.$el.find('option').remove();
@@ -50,6 +58,11 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
 
                 if (selected && selected !== self.selected) {
                     this.options.router.navigate(selected);
+                }
+            },
+            setSelected:function (release) {
+                if (release !== this.selected) {
+                    this.selected = release;
                 }
             }
         }),
@@ -107,8 +120,8 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 }
             },
             setSelected:function (project, release) {
-                if (project != projectListView.selected) {
-                    projectListView.selected = project;
+                if (project !== this.selected) {
+                    this.selected = project;
 
                     if (this.releaseListView) {
                         this.releaseListView.close();
@@ -120,14 +133,12 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                         model:new ReleaseList(undefined, { id:project }),
                         router:{
                             navigate: function(selected) {
-                                router.navigate(self.selected, selected);
+                                self.options.router.navigate(self.selected, selected);
                            }
                         }
                     });
                 }
-                if (release != this.releaseListView.selected) {
-                    projectListView.setSelected(release);
-                }
+                this.releaseListView.setSelected(release);
             }
         }),
         projectListView;
