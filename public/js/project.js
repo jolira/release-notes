@@ -1,114 +1,143 @@
 define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
-    var Release = Backbone.Model.extend({});
-    var ReleaseView = Backbone.View.extend({
-        tagName:"li",
-        template:_.template($('#project-template').html()),
-        events:{
-            "click":"viewNotes"
-        },
-        render:function () {
-            this.$el.html(this.template(this.model.toJSON()));
-            this.$el.toggleClass('done', this.model.get('done'));
-            this.input = this.$('.edit');
-            return this;
-        },
-        viewNotes:function () {
+    var Release = Backbone.Model.extend({}),
+        ReleaseView = Backbone.View.extend({
+            tagName:"option",
+            template:_.template($('#project-template').html()),
+            render:function () {
+                var vals = this.model.toJSON();
 
-        }
-    });
-    var ReleaseList = Backbone.Collection.extend({
-        model:Release,
-        url:'/releases'
-    });
-    var ReleaseListView = Backbone.View.extend({
-        initialize:function () {
-            this.model.bind('reset', this.addAll, this);
-            this.model.fetch();
-        },
-        addAll:function () {
-            this.model.each(function (release) {
-                var view = new ReleaseView({model:project});
-                this.$("#release-list").append(view.render().el);
-            });
-        }
-    });
+                this.$el.html(vals.name);
+                this.$el.val(vals.id);
 
-    var Project = Backbone.Model.extend({
-        // read-only
-    });
+                if (this.selected && this.selected == vals.id) {
+                    this.$el.attr("selected", "true");
+                }
 
-    var ProjectView = Backbone.View.extend({
-        tagName:"option",
-        render:function () {
-            var vals = this.model.toJSON();
-
-            this.$el.html(vals.name);
-            this.$el.val(vals.id);
-
-
-            if (this.selected && this.selected == vals.id) {
-                this.$el.attr("selected", "true");
+                return this;
             }
+        }),
+        ReleaseList = Backbone.Collection.extend({
+            initialize:function (models, options) {
+                this.id = options.id;
+            },
+            model:Release,
+            url:function () {
+                if (!this.id) {
+                    return "/releases"
+                }
+                return "/releases/" + this.id;
+            }
+        }),
+        ReleaseListView = Backbone.View.extend({
+            initialize:function () {
+                this.model.bind('reset', this.addAll, this);
+                this.model.fetch();
+            },
+            addAll:function () {
+                this.$el.removeAttr("disabled");
+                this.$el.find('option').remove();
+                var self = this;
 
-            return this;
-        }
-    });
-
-    var ProjectList = Backbone.Collection.extend({
-        model:Project,
-        url:'/projects'
-    });
-
-    var ProjectListView = Backbone.View.extend({
-        events: {
-            "change"  : "selectProject"
-        },
-        initialize:function () {
-            this.model.bind('reset', this.addAll, this);
-            this.model.fetch();
-        },
-        selectProject: function() {
-            var selected = this.$el.val();
-
-            this.options.router.navigate(selected);
-        },
-        addAll:function () {
-            this.$el.removeAttr("disabled");
-            this.$el.find('option').remove();
-            var self = this;
-
-            this.model.each(function (project) {
-                var view = new ProjectView({
-                    model:project
+                this.model.each(function (project) {
+                    var view = new ReleaseView({
+                        model:project
+                    });
+                    view.selected = self.selected;
+                    self.$el.append(view.render().el);
                 });
-                view.selected = self.selectedProject;
-                self.$el.append(view.render().el);
-            });
 
-            var selected = this.$el.val();
+                var selected = this.$el.val();
 
-            if (selected && selected !== self.selectedProject) {
+                if (selected && selected !== self.selected) {
+                    this.options.router.navigate(selected);
+                }
+            }
+        }),
+        Project = Backbone.Model.extend({}),
+        ProjectView = Backbone.View.extend({
+            tagName:"option",
+            render:function () {
+                var vals = this.model.toJSON();
+
+                this.$el.html(vals.name);
+                this.$el.val(vals.id);
+
+                if (this.selected && this.selected == vals.id) {
+                    this.$el.attr("selected", "true");
+                }
+
+                return this;
+            }
+        }),
+
+        ProjectList = Backbone.Collection.extend({
+            model:Project,
+            url:'/projects'
+        }),
+        ProjectListView = Backbone.View.extend({
+            events:{
+                "change":"selectProject"
+            },
+            initialize:function () {
+                this.model.bind('reset', this.addAll, this);
+                this.model.fetch();
+            },
+            selectProject:function () {
+                var selected = this.$el.val();
+
                 this.options.router.navigate(selected);
-            }
-        },
-        setSelected: function(project, release) {
-            if (project) {
-                projectListView.selectedProject = project;
-            }
-            if (release) {
-                projectListView.selectedRelease = release;
-            }
-        }
-    });
+            },
+            addAll:function () {
+                this.$el.removeAttr("disabled");
+                this.$el.find('option').remove();
+                var self = this;
 
-    var projectListView;
+                this.model.each(function (project) {
+                    var view = new ProjectView({
+                        model:project
+                    });
+                    view.selected = self.selected;
+                    self.$el.append(view.render().el);
+                });
+
+                var selected = this.$el.val();
+
+                if (selected && selected !== self.selected) {
+                    this.options.router.navigate(selected);
+                }
+            },
+            setSelected:function (project, release) {
+                if (project != projectListView.selected) {
+                    projectListView.selected = project;
+
+                    if (this.releaseListView) {
+                        this.releaseListView.close();
+                    }
+
+                    var self = this;
+                    this.releaseListView = new ReleaseListView({
+                        el:$("#release"),
+                        model:new ReleaseList(undefined, { id:project }),
+                        router:{
+                            navigate: function(selected) {
+                                router.navigate(self.selected, selected);
+                           }
+                        }
+                    });
+                }
+                if (release != this.releaseListView.selected) {
+                    projectListView.setSelected(release);
+                }
+            }
+        }),
+        projectListView;
 
     return function (router, project, release) {
         if (!projectListView) {
             projectListView = new ProjectListView({
-                el: $("select"),
+                el:$("#project"),
                 model:new ProjectList(),
-                router: router
+                router:router
             });
         }
 
