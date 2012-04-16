@@ -16,7 +16,6 @@ require(["underscore", "backbone", "jquery", "project"], function (_, Backbone, 
         if (this.beforeClose) {
             this.beforeClose();
         }
-        this.remove();
         this.unbind();
     };
 

@@ -10,7 +10,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 this.$el.val(vals.id);
 
                 if (this.selected && this.selected == vals.id) {
-                    this.$el.attr("selected", "true");
+                    this.$el.attr("selected", true);
                 }
 
                 return this;
@@ -30,6 +30,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
         }),
         ReleaseListView = Backbone.View.extend({
             initialize:function () {
+                this.$el.attr("disabled", true);
                 this.model.bind('reset', this.addAll, this);
                 this.model.fetch();
             },
@@ -76,7 +77,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 this.$el.val(vals.id);
 
                 if (this.selected && this.selected == vals.id) {
-                    this.$el.attr("selected", "true");
+                    this.$el.attr("selected", true);
                 }
 
                 return this;
@@ -92,6 +93,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 "change":"selectProject"
             },
             initialize:function () {
+                this.$el.attr("disabled", true);
                 this.model.bind('reset', this.addAll, this);
                 this.model.fetch();
             },
