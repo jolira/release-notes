@@ -12,17 +12,26 @@ require(["underscore", "backbone", "jquery", "project"], function (_, Backbone, 
 
         var Router = Backbone.Router.extend({
             routes: {
-                "nodes/:project":          "renderProject",
-                "nodes/:project/:release": "renderProject",
-                "*actions":                "renderProject"
+                ":proj":          "renderProject",
+                ":proj/:release": "renderProject",
+                "*actions":       "renderProject"
             },
-            renderProject: function(){
-                project.apply(this, arguments);
+            renderProject: function(proj, release){
+                var self = this;
+                project.call(self, {
+                    navigate:function(proj, release) {
+                        var path = proj ? proj : "";
+                        if (release) {
+                            path += "/" + release;
+                        }
+                        self.navigate(path, { trigger: true });
+                    }
+                }, project, release);
             }
         });
 
         new Router();
-        Backbone.history.start({pushState: true});
+        Backbone.history.start({pushState: false});
     $(function() {
     });
 });

@@ -42,8 +42,8 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
         render:function () {
             var vals = this.model.toJSON();
 
-            this.$el.value = vals.id;
             this.$el.html(vals.name);
+            this.$el.val(vals.id);
 
             return this;
         }
@@ -55,10 +55,18 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
     });
 
     var ProjectListView = Backbone.View.extend({
-        el: $("select"),
+        events: {
+            "change"  : "selectProject"
+        },
         initialize:function () {
             this.model.bind('reset', this.addAll, this);
             this.model.fetch();
+        },
+        selectProject: function() {
+            var selected = this.$el.val();
+
+
+            this.options.router.navigate(selected);
         },
         addAll:function () {
             var self = this;
@@ -72,9 +80,19 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
         }
     });
 
-    return function () {
-        return new ProjectListView({
-            model:new ProjectList()
-        })
+    var projectListView;
+
+    return function (router, project, release) {
+        if (!projectListView) {
+            projectListView = new ProjectListView({
+                el: $("select"),
+                model:new ProjectList(),
+                router: router
+            });
+        }
+
+        if (project) {
+            projectListView.model.select(project, release);
+        }
     };
 });
