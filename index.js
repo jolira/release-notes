@@ -3,7 +3,15 @@ module.exports = require("./lib/build-report.js");
 (function (module) {
     "use strict";
 
-    var projects = require("./lib/projects"),
+    if (!process.env.MINGLE_URL) {
+        console.error("MINGLE_URL environment variable must be set");
+        process.exit(-1);
+    }
+
+    var mingle = require("./lib/mingle"),
+        mingleClient = mingle(process.env.MINGLE_URL, process.env.MINGLE_USERNAME, process.env.MINGLE_PASSWORD),
+        projects = require("./lib/projects"),
+        releases = require("./lib/releases"),
         path = require("path"),
         templates = path.join(__dirname, "templates"),
         pubdir = path.join(__dirname, "public");
@@ -35,7 +43,8 @@ module.exports = require("./lib/build-report.js");
             "js/libs/modernizr-2.5.2.min.js"
         ],
         "dispatcher": {
-            projects: projects
+            projects: projects(mingleClient),
+            releases: releases(mingleClient)
         }
     };
 })(module);

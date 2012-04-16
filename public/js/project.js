@@ -12,7 +12,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             this.input = this.$('.edit');
             return this;
         },
-        viewNotes:function(){
+        viewNotes:function () {
 
         }
     });
@@ -26,7 +26,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             this.model.fetch();
         },
         addAll:function () {
-            this.model.each(function(release){
+            this.model.each(function (release) {
                 var view = new ReleaseView({model:project});
                 this.$("#release-list").append(view.render().el);
             });
@@ -55,20 +55,26 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
     });
 
     var ProjectListView = Backbone.View.extend({
-        tagName:"select",
+        el: $("select"),
         initialize:function () {
             this.model.bind('reset', this.addAll, this);
             this.model.fetch();
         },
         addAll:function () {
-            this.model.each(function(project){
+            var self = this;
+            self.$el.removeAttr("disabled");
+            self.$el.find('option').remove();
+
+            this.model.each(function (project) {
                 var view = new ProjectView({model:project});
-                this.$el.append(view.render().el);
+                self.$el.append(view.render().el);
             });
         }
     });
 
     return function () {
-        return new ReleaseListView({ model:new ReleaseList() })
+        return new ProjectListView({
+            model:new ProjectList()
+        })
     };
 });
