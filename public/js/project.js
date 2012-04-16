@@ -40,14 +40,13 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
     var ProjectView = Backbone.View.extend({
         tagName:"option",
         render:function () {
-            var selectProject = this.selected ? this.selected.split('/') : undefined,
-                vals = this.model.toJSON();
+            var vals = this.model.toJSON();
 
             this.$el.html(vals.name);
             this.$el.val(vals.id);
 
 
-            if (selectProject && selectProject == vals.id) {
+            if (this.selected && this.selected == vals.id) {
                 this.$el.attr("selected", "true");
             }
 
@@ -71,21 +70,34 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
         selectProject: function() {
             var selected = this.$el.val();
 
-
             this.options.router.navigate(selected);
         },
         addAll:function () {
+            this.$el.removeAttr("disabled");
+            this.$el.find('option').remove();
             var self = this;
-            self.$el.removeAttr("disabled");
-            self.$el.find('option').remove();
 
             this.model.each(function (project) {
                 var view = new ProjectView({
                     model:project
                 });
-                view.selected = self.selected;
+                view.selected = self.selectedProject;
                 self.$el.append(view.render().el);
             });
+
+            var selected = this.$el.val();
+
+            if (selected && selected !== self.selectedProject) {
+                this.options.router.navigate(selected);
+            }
+        },
+        setSelected: function(project, release) {
+            if (project) {
+                projectListView.selectedProject = project;
+            }
+            if (release) {
+                projectListView.selectedRelease = release;
+            }
         }
     });
 
@@ -100,11 +112,6 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             });
         }
 
-        if (project) {
-            if (release) {
-                project += '/' + release;
-            }
-            projectListView.selected = project;
-        }
+        projectListView.setSelected(project, release);
     };
 });
