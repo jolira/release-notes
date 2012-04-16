@@ -26,7 +26,7 @@ require(["underscore", "backbone", "jquery", "project"], function (_, Backbone, 
                         }
                         self.navigate(path, { trigger: true });
                     }
-                }, project, release);
+                }, proj, release);
             }
         });
 

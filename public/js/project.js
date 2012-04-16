@@ -40,10 +40,16 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
     var ProjectView = Backbone.View.extend({
         tagName:"option",
         render:function () {
-            var vals = this.model.toJSON();
+            var selectProject = this.selected ? this.selected.split('/') : undefined,
+                vals = this.model.toJSON();
 
             this.$el.html(vals.name);
             this.$el.val(vals.id);
+
+
+            if (selectProject && selectProject == vals.id) {
+                this.$el.attr("selected", "true");
+            }
 
             return this;
         }
@@ -74,7 +80,10 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             self.$el.find('option').remove();
 
             this.model.each(function (project) {
-                var view = new ProjectView({model:project});
+                var view = new ProjectView({
+                    model:project
+                });
+                view.selected = self.selected;
                 self.$el.append(view.render().el);
             });
         }
@@ -92,7 +101,10 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
         }
 
         if (project) {
-            projectListView.model.select(project, release);
+            if (release) {
+                project += '/' + release;
+            }
+            projectListView.selected = project;
         }
     };
 });
