@@ -11,7 +11,6 @@ module.exports = require("./lib/build-report.js");
     var mingle = require("./lib/mingle"),
         mingleClient = mingle(process.env.MINGLE_URL, process.env.MINGLE_USERNAME, process.env.MINGLE_PASSWORD),
         projects = require("./lib/projects"),
-        releases = require("./lib/releases"),
         path = require("path"),
         templates = path.join(__dirname, "templates"),
         pubdir = path.join(__dirname, "public");
@@ -43,8 +42,7 @@ module.exports = require("./lib/build-report.js");
             "js/libs/modernizr-2.5.2.min.js"
         ],
         "dispatcher": {
-            projects: projects(mingleClient),
-            releases: releases(mingleClient)
+            projects: projects(mingleClient)
         }
     };
 })(module);

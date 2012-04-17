@@ -23,9 +23,9 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             model:Release,
             url:function () {
                 if (!this.id) {
-                    return "/releases"
+                    return "/projects"
                 }
-                return "/releases/" + this.id;
+                return "/projects/" + this.id;
             }
         }),
         ReleaseListView = Backbone.View.extend({
