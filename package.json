@@ -23,6 +23,7 @@
         "uglify-js":"*"
     },
     "dependencies":{
+        "xml2js":"*",
         "batch":"*",
         "restler":"*"
     },
