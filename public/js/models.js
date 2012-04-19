@@ -1,15 +1,17 @@
 define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
     var ReleaseNotes = Backbone.Model.extend({
-            urlRoot:"/projects"
+            url:function () {
+                return "/projects/" + this.id;
+            }
         }),
         Release = Backbone.Model.extend({}),
         Project = Backbone.Model.extend({}),
         ReleaseList = Backbone.Collection.extend({
             model:Release,
-            initialize: function(options) {
+            initialize:function (options) {
                 this.id = options.id;
             },
-            url:function(){
+            url:function () {
                 return "/projects/" + this.id;
             }
         }),
@@ -31,9 +33,6 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                         arguments[0] = "list:" + arguments[0];
                         Backbone.Events.trigger.apply(self, arguments);
                     });
-                    if (self.fetched) {
-                        self.list.fetch();
-                    }
                 });
                 this.on("change:selected", function (mdl, value) {
                     if (self.notes) {
@@ -54,9 +53,11 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                         });
                     }
                 });
-                this.fetch = function() {
-                    self.fetched = true;
+                this.fetchList = function () {
                     return self.list && self.list.fetch();
+                };
+                this.fetchNotes = function () {
+                    return self.notes && self.notes.fetch();
                 };
             }
         }),
@@ -74,7 +75,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                     arguments[0] = "list:" + arguments[0];
                     Backbone.Events.trigger.apply(self, arguments);
                 });
-                this.fetch = function() {
+                this.fetch = function () {
                     return self.list.fetch();
                 };
             }

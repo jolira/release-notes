@@ -1,5 +1,20 @@
 define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
-    var OptionView = Backbone.View.extend({
+    var NotesView = Backbone.View.extend({
+            initialize:function () {
+                this.model.bind('change:selected', this.reload, this);
+                this.model.bind('notes:change', this.addNotes, this);
+            },
+            reload:function () {
+                this.$el.html("Loading...");
+                this.model.fetchNotes();
+            },
+            addNotes:function () {
+                var content = this.model.notes.toJSON();
+
+                this.$el.text(content);
+            }
+        }),
+        OptionView = Backbone.View.extend({
             tagName:"option",
             render:function () {
                 var vals = this.model.toJSON();
@@ -21,12 +36,12 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             initialize:function () {
                 this.model.bind('list:reset', this.addAll, this);
                 this.model.bind('change:project', this.reload, this);
-                this.model.fetch();
             },
             reload:function () {
                 this.$el.attr("disabled", true);
                 this.$el.find('option').remove();
                 this.$el.append($("<option>Loading...</option>"))
+                this.model.fetchList();
             },
             selectRelease:function () {
                 var selected = this.$el.val();
@@ -44,7 +59,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 this.model.list.each(function (project) {
                     var view = new OptionView({
                         model:project,
-                        id: current
+                        id:current
                     });
                     self.$el.append(view.render().el);
                 });
@@ -105,11 +120,16 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             releaseList = new ReleaseListView({
                 el:$(releaseID),
                 model:projects.releases
+            }),
+            notes = new NotesView({
+                el:$(notesID),
+                model:projects.releases
             });
 
         return {
-            projectList: projectList,
-            releaseList: releaseList
+            projectList:projectList,
+            releaseList:releaseList,
+            notes:notes
         };
     };
 });
