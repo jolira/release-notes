@@ -1,5 +1,5 @@
 define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
-    var ReleaseView = Backbone.View.extend({
+    var OptionView = Backbone.View.extend({
             tagName:"option",
             render:function () {
                 var vals = this.model.toJSON();
@@ -20,7 +20,13 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             },
             initialize:function () {
                 this.model.bind('list:reset', this.addAll, this);
+                this.model.bind('change:project', this.reload, this);
                 this.model.fetch();
+            },
+            reload:function () {
+                this.$el.attr("disabled", true);
+                this.$el.find('option').remove();
+                this.$el.append($("<option>Loading...</option>"))
             },
             selectRelease:function () {
                 var selected = this.$el.val();
@@ -36,7 +42,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                     self = this;
 
                 this.model.list.each(function (project) {
-                    var view = new ReleaseView({
+                    var view = new OptionView({
                         model:project,
                         id: current
                     });
@@ -52,27 +58,11 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 }
             }
         }),
-        ProjectView = Backbone.View.extend({
-            tagName:"option",
-            render:function () {
-                var vals = this.model.toJSON();
-
-                this.$el.html(vals.name);
-                this.$el.val(vals.id);
-
-                if (this.selected && this.id == vals.id) {
-                    this.$el.attr("selected", true);
-                }
-
-                return this;
-            }
-        }),
         ProjectListView = Backbone.View.extend({
             events:{
                 "change":"selectProject"
             },
             initialize:function () {
-                this.$el.attr("disabled", true);
                 this.model.bind('list:reset', this.addAll, this);
                 this.model.fetch();
             },
@@ -90,7 +80,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                     self = this;
 
                 this.model.list.each(function (project) {
-                    var view = new ProjectView({
+                    var view = new OptionView({
                         model:project,
                         id:current
                     });
