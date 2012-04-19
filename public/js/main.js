@@ -7,7 +7,7 @@ require.config({
     }
 });
 
-require(["underscore", "backbone", "jquery", "project"], function (_, Backbone, $, project) {
+require(["underscore", "backbone", "jquery", "models", "views"], function (_, Backbone, $, projects, viewMaker) {
     "use strict";
 
     Backbone.View.prototype.close = function () {
@@ -19,28 +19,46 @@ require(["underscore", "backbone", "jquery", "project"], function (_, Backbone, 
         this.unbind();
     };
 
-    var Router = Backbone.Router.extend({
-        routes:{
-            ":proj":"renderProject",
-            ":proj/:release":"renderProject",
-            "*actions":"renderProject"
-        },
-        renderProject:function (proj, release) {
-            var self = this;
-            project.call(self, {
-                navigate:function (proj, release) {
-                    var path = proj ? proj : "";
+    var views = viewMaker(projects, "#project", "#release", "#notes"),
+        Router = Backbone.Router.extend({
+            routes:{
+                ":project":"renderProject",
+                ":project/:release":"renderProject",
+                "*actions":"renderProject"
+            },
+            renderProject:function (project, release) {
+                if (project) {
+                    projects.set({
+                        selected:project
+                    }, {
+                        silent:!!release
+                    });
                     if (release) {
-                        path += "/" + release;
+                        projects.releases.set({
+                            project: project,
+                            selected:release
+                        });
                     }
-                    self.navigate(path, { trigger:true });
                 }
-            }, proj, release);
-        }
-    });
+            }
+        });
 
-    new Router();
+    var router = new Router();
+
+    function processModelUpdate() {
+        var project = projects.get("selected"),
+            release = projects.releases.get("selected"),
+            path = project ? project : "";
+
+        if (release) {
+            path += "/" + release;
+        }
+
+        router.navigate(path, { trigger:false });
+    }
+
+    projects.on("change:selected", processModelUpdate);
+    projects.releases.on("change:selected", processModelUpdate);
+
     Backbone.history.start({pushState:false});
-    $(function () {
-    });
 });
