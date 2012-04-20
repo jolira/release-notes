@@ -1,6 +1,6 @@
 {
     "name":"release-notes",
-    "version":"0.1.3",
+    "version":"0.1.4",
     "description":"Generate release notes from Jenkins CI server",
     "keywords":["mingle", "jenkins"],
     "contributors": [
@@ -33,6 +33,6 @@
     },
     "main":"index",
     "engines":{
-        "node":">= 0.6.14 < 0.7.0"
+        "node":">= 0.6.15 < 0.7.0"
     }
 }
