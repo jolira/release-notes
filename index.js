@@ -3,11 +3,6 @@ module.exports = require("./lib/build-report.js");
 (function (module) {
     "use strict";
 
-    if (!process.env.MINGLE_URL) {
-        console.error("MINGLE_URL environment variable must be set");
-        process.exit(-1);
-    }
-
     var mingle = require("./lib/mingle"),
         projects = require("./lib/projects"),
         path = require("path"),
@@ -15,7 +10,8 @@ module.exports = require("./lib/build-report.js");
         pubdir = path.join(__dirname, "public");
 
     module.exports = function (defaults, cb, options) {
-        var mingleClient = mingle(process.env.MINGLE_URL, process.env.MINGLE_USERNAME, process.env.MINGLE_PASSWORD);
+        var mopts = options.mingle,
+            mingleClient = mingle(mopts.url, mopts.username, mopts.password);
 
         defaults.hostname = "release-notes.jolira.com";
         defaults["public"] = pubdir,
