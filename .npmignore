@@ -1,5 +1,6 @@
 examples
 test
+.idea
 .npmignore
 .travis.yml
 Jakefile.js
