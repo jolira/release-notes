@@ -11,7 +11,10 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
             addNotes:function () {
                 var content = this.model.notes.toJSON();
 
-                this.$el.text(JSON.stringify(content));
+                if (!content.changes || !content.changes.length) {
+                    this.$el.text("no changes found");
+                    return;
+                }
             }
         }),
         OptionView = Backbone.View.extend({

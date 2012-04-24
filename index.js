@@ -4,6 +4,7 @@ module.exports = require("./lib/build-report.js");
     "use strict";
 
     var mingle = require("./lib/mingle"),
+        jenkins = require("./lib/jenkins"),
         projects = require("./lib/projects"),
         path = require("path"),
         templates = path.join(__dirname, "templates"),
@@ -11,10 +12,16 @@ module.exports = require("./lib/build-report.js");
 
     module.exports = function (defaults, cb, options) {
         var mopts = options.mingle,
-            mingleClient = mingle(mopts.url, mopts.username, mopts.password);
+            jopts = options.jenkins,
+            mingleClient = mingle(mopts.url, mopts.username, mopts.password),
+            jenkinsClient = jenkins(jopts.url, jopts.username, jopts.password),
+            pubdirs = [pubdir];
 
+        defaults["public"].forEach(function (dir) {
+            pubdirs.push(dir);
+        });
         defaults.hostname = "release-notes.jolira.com";
-        defaults["public"] = pubdir,
+        defaults["public"] = pubdirs,
         defaults.googleAnalyticsWebPropertyID = "UA-3602945-1";
         defaults.title = "Release Notes";
         defaults.stylesheets = [
@@ -40,7 +47,7 @@ module.exports = require("./lib/build-report.js");
             "js/libs/modernizr-2.5.2.min.js"
         ];
         defaults.dispatcher = {
-            projects:projects(mingleClient)
+            projects:projects(mingleClient, jenkinsClient)
         };
 
         return cb(undefined, defaults);

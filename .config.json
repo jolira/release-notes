@@ -1,7 +1,10 @@
 {
     "mingle": {
-        "url": "https://mingle/",
-        "username": "relase.notes",
-        "password": "--change.me--"
+        "url": "http://mingle.jolira.com/",
+        "username": "joachim.kainz",
+        "password": "30N4X%Sy7PdY"
+    },
+    "jenkins": {
+        "url": "http://jenkins.jolira.com/"
     }
 }
