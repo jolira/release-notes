@@ -1,6 +1,7 @@
-<div class="change">
-    <span class="project"><%= mingle.project %></span>
-    <span class="card"><%= mingle.card %></span>
-    <span class="build"><%= jenkins.number %> <%= jenkins.date %> </span>
-    <span class="approved"><%= mingle.approved %></span>
-</div>
+<li class="change">
+    <span class="project" style="float:left; width: 180px"><%= project %></span>
+    <span class="card" style="float:left; width: 50px"><%= card %></span>
+    <span class="build" style="float:left; width: 80px"><%= number %> <%= date.getMonth() %>/<%= date.getDate() %>/<%= date.getYear() %> </span>
+    <span class="author" style="float:left; width: 80px"><%= author %> </span>
+    <span class="approved" style="float:left; width: 80px"><%= approved %></span>
+</li>

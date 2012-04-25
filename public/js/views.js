@@ -17,10 +17,20 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                     return;
                 }
 
-                content.changes.forEach(function(change){
-                    var html = template(change);
+                var ul = this.$el.html('<ul style="list-style-type: none; padding-left: 0px;"></ul>');
 
-                    this.$el.append(html);
+                var self = this;
+                content.changes.forEach(function(change){
+                    var html = self.template({
+                        project: change.mingle.project,
+                        card: change.mingle.card,
+                        number: change.jenkins.number,
+                        date: new Date(change.jenkins.date),
+                        author: change.jenkins.author,
+                        approved: change.mingle.approved ? "approved" : "not approved"
+                    });
+
+                    ul.append(html);
                 });
                 this.$el.append();
             }

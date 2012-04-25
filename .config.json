@@ -1,10 +1,10 @@
 {
     "mingle": {
-        "url": "http://mingle.jolira.com/",
+        "url": "https://mingle.bsc.bscal.com/",
         "username": "joachim.kainz",
-        "password": "30N4X%Sy7PdY"
+        "password": "L3%6j&@B47tT"
     },
     "jenkins": {
-        "url": "http://jenkins.jolira.com/"
+        "url": "http://jenkins.bsc.bscal.com/"
     }
 }
