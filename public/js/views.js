@@ -1,5 +1,6 @@
 define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
     var NotesView = Backbone.View.extend({
+            template:_.template($('#project-template').html()),
             initialize:function () {
                 this.model.bind('change:selected', this.reload, this);
                 this.model.bind('notes:change', this.addNotes, this);
@@ -15,6 +16,13 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                     this.$el.text("no changes found");
                     return;
                 }
+
+                content.changes.forEach(function(change){
+                    var html = template(change);
+
+                    this.$el.append(html);
+                });
+                this.$el.append();
             }
         }),
         OptionView = Backbone.View.extend({

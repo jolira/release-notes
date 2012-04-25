@@ -1,6 +1,6 @@
-<div class="view">
-    <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-    <label><%= title %></label>
-    <a class="destroy"></a>
+<div class="change">
+    <span class="project"><%= mingle.project %></span>
+    <span class="card"><%= mingle.card %></span>
+    <span class="build"><%= jenkins.number %> <%= jenkins.date %> </span>
+    <span class="approved"><%= mingle.approved %></span>
 </div>
-<input class="edit" type="text" value="<%= title %>" />
