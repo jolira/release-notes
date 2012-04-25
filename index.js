@@ -1,4 +1,3 @@
-module.exports = require("./lib/build-report.js");
 /*jslint node: true, vars: true, indent: 4 */
 (function (module) {
     "use strict";
