@@ -1,7 +1,7 @@
 define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
     var ReleaseNotes = Backbone.Model.extend({
             url:function () {
-                return "/projects/" + this.id;
+                return "projects/" + this.id;
             }
         }),
         Release = Backbone.Model.extend({}),
@@ -12,11 +12,11 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                 this.id = options.id;
             },
             url:function () {
-                return "/projects/" + this.id;
+                return "projects/" + this.id;
             }
         }),
         ProjectList = Backbone.Collection.extend({
-            url:"/projects",
+            url:"projects",
             model:Project
         }),
         SelectableReleaseList = Backbone.Model.extend({
