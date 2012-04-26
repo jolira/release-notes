@@ -23,6 +23,7 @@
         "uglify-js":"*"
     },
     "dependencies":{
+        "site-manager-bootstrap": "*",
         "xml2js":"*",
         "batch":"*",
         "restler":"*"

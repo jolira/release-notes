@@ -5,6 +5,7 @@
     var mingle = require("./lib/mingle"),
         jenkins = require("./lib/jenkins"),
         projects = require("./lib/projects"),
+        bootstrap = require("site-manager-bootstrap"),
         path = require("path"),
         templates = path.join(__dirname, "templates"),
         pubdir = path.join(__dirname, "public");
@@ -14,18 +15,18 @@
             jopts = options.jenkins,
             mingleClient = mingle(mopts.url, mopts.username, mopts.password),
             jenkinsClient = jenkins(jopts.url, jopts.username, jopts.password),
-            pubdirs = [pubdir];
+            pubdirs = [ pubdir, bootstrap ];
 
         defaults["public"].forEach(function (dir) {
             pubdirs.push(dir);
         });
         defaults.hostname = "release-notes.jolira.com";
-        defaults["public"] = pubdirs,
+        defaults["public"] = pubdirs;
         defaults.googleAnalyticsWebPropertyID = "UA-3602945-1";
         defaults.title = "Release Notes";
         defaults.stylesheets = [
-            "css/style.css",
-            "css/release-notes.less"
+            "less/bootstrap.less",
+            "less/responsive.less"
         ];
         defaults.metas = [
             {
