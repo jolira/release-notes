@@ -1,7 +1,9 @@
-<li class="change">
-    <span class="project" style="float:left; width: 180px"><%= project %></span>
-    <span class="card" style="float:left; width: 50px"><%= card %></span>
-    <span class="build" style="float:left; width: 80px"><%= number %> <%= date.getMonth() %>/<%= date.getDate() %>/<%= date.getYear() %> </span>
-    <span class="author" style="float:left; width: 80px"><%= author %> </span>
-    <span class="approved" style="float:left; width: 80px"><%= approved %></span>
-</li>
+<tr class="change">
+    <td class="project"><%= project %></td>
+    <td class="card"><%= card %></td>
+    <td class="build"><%= number %> <%= date.getMonth() %>/<%= date.getDate() %>/<%=
+        date.getYear() %>
+    </td>
+    <td class="author"><%= author %></td>
+    <td class="approved"><%= approved %></td>
+</tr>

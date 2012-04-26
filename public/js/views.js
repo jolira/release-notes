@@ -27,7 +27,7 @@ define(["underscore", "backbone", "jquery"], function (_, Backbone, $) {
                         number: change.jenkins.number,
                         date: new Date(change.jenkins.date),
                         author: change.jenkins.author,
-                        approved: change.mingle.approved ? "approved" : "not approved"
+                        approved: change.mingle.approved ? "yes" : "NO"
                     });
 
                     ul.append(html);

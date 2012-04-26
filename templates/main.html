@@ -1,5 +1,21 @@
 <aside>
-<select id="project" disabled><option value="loading">Loading...</option></select>
-<select id="release" disabled><option value="loading">Loading...</option></select>
+    <select id="project" disabled>
+        <option value="loading">Loading...</option>
+    </select>
+    <select id="release" disabled>
+        <option value="loading">Loading...</option>
+    </select>
 </aside>
-<div id="notes"></div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Project</th>
+        <th>Card</th>
+        <th># Date</th>
+        <th>Author</th>
+        <th>Approved</th>
+    </tr>
+    </thead>
+    <tbody id="notes">
+    </tbody>
+</table>
