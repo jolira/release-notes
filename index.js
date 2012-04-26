@@ -8,14 +8,16 @@
         bootstrap = require("site-manager-bootstrap"),
         path = require("path"),
         templates = path.join(__dirname, "templates"),
-        pubdir = path.join(__dirname, "public");
+        pubdir = path.join(__dirname, "public"),
+        localLessdir = path.join(pubdir, "less"),
+        bootstrapLessdir = path.join(bootstrap, "less");
 
     module.exports = function (defaults, cb, options) {
         var mopts = options.mingle,
             jopts = options.jenkins,
             mingleClient = mingle(mopts.url, mopts.username, mopts.password),
             jenkinsClient = jenkins(jopts.url, jopts.username, jopts.password),
-            pubdirs = [ pubdir, bootstrap ];
+            pubdirs = [ pubdir, localLessdir, bootstrapLessdir, bootstrap ];
 
         defaults["public"].forEach(function (dir) {
             pubdirs.push(dir);
@@ -25,8 +27,8 @@
         defaults.googleAnalyticsWebPropertyID = "UA-3602945-1";
         defaults.title = "Release Notes";
         defaults.stylesheets = [
-            "less/bootstrap.less",
-            "less/responsive.less"
+            "bootstrap.less",
+            "responsive.less"
         ];
         defaults.metas = [
             {
